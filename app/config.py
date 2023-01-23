@@ -6,3 +6,5 @@ NUM_WORKERS=4
 REVERSE_PROXY_URL = "http://localhost"
 NUM_CLIENT_REQUEST = 1000
 SSL_VERIFICATION = "False"
+# default number of available CPUs
+# MAX_WORKERS = 4
