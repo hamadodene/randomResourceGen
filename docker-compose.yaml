@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server.dockerfile
+    ports:
+      - 8080:8080
+  client:
+     build:
+      context: .
+      dockerfile: client.dockerfile 
+
+

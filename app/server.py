@@ -22,7 +22,6 @@ def generate_image_from_api(image_name):
     img_io = generator.generate_image_from_api()
     return send_file(img_io, mimetype='image/png')
 
-
 if __name__ == "__main__":
     app.config.from_pyfile(os.path.join(os.path.dirname(__file__), 'config.py'))
     http_server = HTTPServer(WSGIContainer(app))
