@@ -32,3 +32,9 @@ class ImageGenerator:
         image.save(byte_io, 'PNG')
         byte_io.seek(0)
         return byte_io
+
+class Utils:
+    def randomCacheHeader():
+        # Generate a random value for the cache-control header
+        cache_control = random.choice(["no-cache", "public", "private"])
+        return cache_control

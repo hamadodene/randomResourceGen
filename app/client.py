@@ -32,13 +32,14 @@ def random_string(string_lenght=10):
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     results = [executor.submit(make_request, URL + '/imagergb/' + random_string() + '.png') for i in range(num_requests)]
-    #results = [executor.submit(requests.get, url + '/image/' + random_string() + '.png') for i in range(num_requests)]]
+    #results = [executor.submit(make_request, URL + '/image/' + random_string() + '.png') for i in range(num_requests)]
     for future in concurrent.futures.as_completed(results):
         start_time_req = time.time()
         # Get the response from the Future object
         response = future.result()
         end_time_req = time.time()
         print(f"Request {response.url} returned status code {response.status_code} in {end_time_req - start_time_req} seconds")
+        print(f"request {response.url} headers is {response.headers} ")
 
 end_time = time.time()
 

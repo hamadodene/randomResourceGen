@@ -1,6 +1,6 @@
 import io
 from PIL import Image
-from flask import Flask, send_file, jsonify
+from flask import Flask, send_file, make_response
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
@@ -15,12 +15,18 @@ generator = ImageGenerator()
 @app.route("/imagergb/<string:image_name>")
 def generate_rgb_image(image_name):
     img_io = generator.generate_rgb_image()
-    return send_file(img_io, mimetype='image/png')
+    cache_control = random.choice(["no-cache", "public", "private"]) 
+    response = make_response(send_file(img_io, mimetype='image/png'))
+    response.headers['cache-control'] = cache_control
+    return response
 
 @app.route("/image/<string:image_name>")
 def generate_image_from_api(image_name):
     img_io = generator.generate_image_from_api()
-    return send_file(img_io, mimetype='image/png')
+    cache_control = random.choice(["no-cache", "public", "private"])
+    response = make_response(send_file(img_io, mimetype='image/png'))
+    response.headers['cache-control'] = cache_control
+    return response
 
 if __name__ == "__main__":
     app.config.from_pyfile(os.path.join(os.path.dirname(__file__), 'config.py'))
