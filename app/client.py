@@ -6,10 +6,14 @@ import requests
 import config
 import random
 import string
+from requests.packages import urllib3
 
 URL = config.REVERSE_PROXY_URL
 num_requests = config.NUM_CLIENT_REQUEST
 ssl_verification = True if config.SSL_VERIFICATION.lower == "true" else False
+
+if not ssl_verification:
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Create a session with no SSL verification
 session = requests.Session()
