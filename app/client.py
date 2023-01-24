@@ -12,7 +12,7 @@ import os
 load_dotenv(dotenv_path='config_env.env')
 
 URL = os.getenv("REVERSE_PROXY_URL")
-num_requests = os.getenv("NUM_CLIENT_REQUEST")
+num_requests = int(os.getenv("NUM_CLIENT_REQUEST"))
 ssl_verification = True if os.getenv("SSL_VERIFICATION").lower == "true" else False
 
 if not ssl_verification:
@@ -40,7 +40,7 @@ def random_path():
 def createExecutor(max_workers=None):
     if max_workers is None:
         max_workers = concurrent.futures.cpu_count()
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=int(max_workers)) as executor:
         results = [executor.submit(make_request, URL + random_path() + random_string() + '.png') for i in range(num_requests)]
         for future in concurrent.futures.as_completed(results):
             start_time_req = time.time()
