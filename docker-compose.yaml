@@ -3,12 +3,18 @@ services:
   server:
     build:
       context: .
-      dockerfile: server.dockerfile
+      dockerfile: ./dockerfile/server.dockerfile
+    container_name: randomresourcegen-server
     ports:
-      - 8080:8080
+      - 8084:8080
+    env_file:
+      - ./env/server.env
   client:
-     build:
+    build:
       context: .
-      dockerfile: client.dockerfile 
+      dockerfile: ./dockerfile/client.dockerfile
+    container_name: randomresourcegen-client  
+    env_file:
+      - ./env/client.env
 
 

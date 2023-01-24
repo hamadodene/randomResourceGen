@@ -3,14 +3,17 @@
 import concurrent.futures
 import time
 import requests
-import config
 import random
 import string
 from requests.packages import urllib3
+from dotenv import load_dotenv
+import os
 
-URL = config.REVERSE_PROXY_URL
-num_requests = config.NUM_CLIENT_REQUEST
-ssl_verification = True if config.SSL_VERIFICATION.lower == "true" else False
+load_dotenv(dotenv_path='config_env.env')
+
+URL = os.getenv("REVERSE_PROXY_URL")
+num_requests = os.getenv("NUM_CLIENT_REQUEST")
+ssl_verification = True if os.getenv("SSL_VERIFICATION").lower == "true" else False
 
 if not ssl_verification:
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -56,7 +59,7 @@ def createExecutor(max_workers=None):
     print(f"Average time for each request: {average_time} seconds")
 
 
-max_workers = getattr(config, 'MAX_WORKERS', None)
+max_workers = os.getenv("MAX_WORKERS", None)
 if max_workers:
     createExecutor(max_workers)
 else:

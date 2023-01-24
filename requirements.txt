@@ -1,0 +1,5 @@
+requests
+tornado
+flask
+pillow
+python-dotenv

@@ -1,11 +1,13 @@
-import io
-from PIL import Image
 from flask import Flask, send_file, make_response
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 import os
 from utils import *
+from dotenv import load_dotenv
+import multiprocessing
+
+load_dotenv(dotenv_path='config_env.env')
 
 app = Flask(__name__)
 
@@ -29,9 +31,10 @@ def generate_image_from_api(image_name):
     return response
 
 if __name__ == "__main__":
-    app.config.from_pyfile(os.path.join(os.path.dirname(__file__), 'config.py'))
     http_server = HTTPServer(WSGIContainer(app))
-    http_server.bind(app.config['PORT'])
-    http_server.start(app.config['NUM_WORKERS'])
+    PORTS = int(os.getenv('PORT', 8080))
+    http_server.bind(PORTS)
+    num_workers = int(os.getenv('NUM_WORKERS', multiprocessing.cpu_count()))
+    http_server.start(num_workers)
     IOLoop.instance().start()
            
